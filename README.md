@@ -68,7 +68,7 @@ foreach ($singleApp in $allSAMLApps) {
 Write-Host "There are $countExpiring certs." -ForegroundColor Green 
   
 # Create Accounts
-{#Enter a path to your import CSV file
+#Enter a path to your import CSV file
 $ADUsers = Import-csv C:\my\file\path.csv
 
 foreach ($User in $ADUsers)
@@ -95,7 +95,7 @@ foreach ($User in $ADUsers)
 
        }
 }
- } 
+  
 # SPLUNK Queries
   
 **Find accounts and logged in hosts**<br />
