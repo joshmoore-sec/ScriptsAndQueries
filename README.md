@@ -67,7 +67,7 @@ foreach ($singleApp in $allSAMLApps) {
 
 Write-Host "There are $countExpiring certs." -ForegroundColor Green 
   
-# Create Accounts
+**Create Accounts**
 #Enter a path to your import CSV file
 $ADUsers = Import-csv C:\my\file\path.csv
 
