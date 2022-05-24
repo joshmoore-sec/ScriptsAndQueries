@@ -140,4 +140,21 @@ index=wineventlog source="WinEventLog:Security" EventCode=4624 Logon_Type=10 pro
 | dedup logging_in_user ComputerName
   
  # CyberArk API Account & Safe Management
+ **API Information**
+* https://github.com/cyberark/apv-api-scripts
+* <CyberArk PVWA>/passwordvault/swagger/ui
+* https://cybr.rocks/restapi 
+  
+
+https://cybr.rocks/restapi 
+Download and import into postman
+  
+ **Safe Creation**
+ .\Safe-Management.ps1 -PVWAURL "<pvwa URL>" -Add -FilePath "C:\Temp\SafeOnboard.csv"
+  
+ **Add Members**
+  .\Safe-Management.ps1 -PVWAURL "<pvwa URL>" -Add -FilePath "C:\Temp\SafeMembers.csv"
+  
+  **Onboard Accounts**
+  .\Accounts_Onboard_Utility.ps1 -PVWAURL "<pvwa URL>" -CsvPath .\Test_AccountOnboard.csv -Create -NoSafeCreation
  
