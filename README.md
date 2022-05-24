@@ -145,16 +145,12 @@ index=wineventlog source="WinEventLog:Security" EventCode=4624 Logon_Type=10 pro
 * 'CyberArk PVWA'/passwordvault/swagger/ui
 * https://cybr.rocks/restapi 
   
-
-https://cybr.rocks/restapi 
-Download and import into postman
-  
- **Safe Creation**
+ **Safe Creation** <br />
  .\Safe-Management.ps1 -PVWAURL "pvwa URL" -Add -FilePath "C:\Temp\SafeOnboard.csv"
   
- **Add Members**
+ **Add Members** <br />
   .\Safe-Management.ps1 -PVWAURL "'pvwa URL" -Add -FilePath "C:\Temp\SafeMembers.csv"
   
-  **Onboard Accounts**
+  **Onboard Accounts**<br />
   .\Accounts_Onboard_Utility.ps1 -PVWAURL "'pvwa URL'" -CsvPath .\Test_AccountOnboard.csv -Create -NoSafeCreation
  
