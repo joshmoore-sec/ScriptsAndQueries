@@ -2,7 +2,7 @@
 Running list of scripts and queries that assist in review of identity information.
 
 
-# Active Directory
+# Active Directory or Azure AD
 **LDAPFilter Users & attaching properties to export**
 Get-ADUser -LDAPFilter "(<attribut=name*)" -Properties WhenCreated | Export-Csv -Path C:\my\file\path.csv
 Get-ADUser -LDAPFilter "(<attribut=name*)" -Properties LastLogonDate | Export-Csv -Path C:\my\file\path.csv
@@ -33,6 +33,39 @@ ForEach ($group in $groups){
 **Get-ADUser & Attributes - Auto convert LastLogonTimestamp & pwdlastset**
 Get-ADUser -Filter * -Properties displayName, name, sAMAccountName, employeeNumber, employeeType, LastLogonTimeStamp, objectGUID, objectSid, primaryGroupID, pwdLastSet, whenCreated, enabled | Select-Object -Property "displayName", "name", "sAMAccountName", "employeeNumber", "employeeType", "objectGUID", "objectSid", "primaryGroupID", "whenCreated", "enabled", @{n="LastLogon";e={[datetime]::FromFileTime($_."LastLogonTimeStamp")}}, @{n="PwdLastSet";e={[datetime]::FromFileTime($_."PwdLastSet")}} | Export-Csv -Path C:\my\file\path.csv
 
+ **FindCertsinAzure** <br />
+Import-Module AzureAD
+
+Connect-AzureAD
+
+#Change this to the number of days out you want to look
+$daysOut = 30
+
+
+#Main Script#
+$doneID = ""
+$countExpiring = 0
+
+$allSAMLApps = Get-AzureADServicePrincipal -All $true | Where-Object {($_.Tags -contains "WindowsAzureActiveDirectoryGalleryApplicationNonPrimaryV1") -or ($_.Tags -contains "WindowsAzureActiveDirectoryCustomSingleSignOnApplication")}
+
+Write-Host "Looking for certs that expire by ((Get-Date).AddDays($daysOut))" -ForegroundColor Green
+foreach ($singleApp in $allSAMLApps) {
+    
+    foreach ($KeyCredential in $singleApp.KeyCredentials) {
+        
+        if ( $KeyCredential.EndDate -lt (Get-Date).AddDays($daysOut) ) {
+            if (($singleApp.ObjectId) -ne $doneID) {
+                Write-Host " Name: " ($singleApp.DisplayName) " - Experation: " $KeyCredential.EndDate
+                $doneID = ($singleApp.ObjectId)
+                $countExpiring = $countExpiring + 1
+            }
+        }
+
+    }
+
+}
+
+Write-Host "There are $countExpiring certs." -ForegroundColor Green 
   
  # SPLUNK Queries
   
