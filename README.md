@@ -34,6 +34,7 @@ ForEach ($group in $groups){
 Get-ADUser -Filter * -Properties displayName, name, sAMAccountName, employeeNumber, employeeType, LastLogonTimeStamp, objectGUID, objectSid, primaryGroupID, pwdLastSet, whenCreated, enabled | Select-Object -Property "displayName", "name", "sAMAccountName", "employeeNumber", "employeeType", "objectGUID", "objectSid", "primaryGroupID", "whenCreated", "enabled", @{n="LastLogon";e={[datetime]::FromFileTime($_."LastLogonTimeStamp")}}, @{n="PwdLastSet";e={[datetime]::FromFileTime($_."PwdLastSet")}} | Export-Csv -Path C:\my\file\path.csv
 
  **FindCertsinAzure** <br />
+```
 Import-Module AzureAD
 
 Connect-AzureAD
@@ -65,9 +66,10 @@ foreach ($singleApp in $allSAMLApps) {
 
 }
 
-Write-Host "There are $countExpiring certs." -ForegroundColor Green 
-  
+Write-Host "There are $countExpiring certs." -ForegroundColor Green
+```
 **Create Accounts**<br />
+```
 #Enter a path to your import CSV file
 $ADUsers = Import-csv C:\my\file\path.csv
 
@@ -95,8 +97,11 @@ foreach ($User in $ADUsers)
 
        }
 }
-<br />  
+```
+<br /> 
+  
 **Get AD Group Members** <br />
+```
 $Members= Get-ADGroupMember -Identity "group name"
 $Members | Get-ADUser -Properties name, UserPrincipalName | Select-Object name, UserPrincipalName
 
@@ -111,11 +116,12 @@ $Members= Get-ADGroupMember -Identity $groupName
     foreach ($individual in $Members)
     {
     $myOutput += $Members | Get-ADUser -Properties name, UserPrincipalName | Select-Object name, UserPrincipalName, @{n='Group';e={$groupName}}
-    $myOutput | Export-CSV 'C:\Users\moore428\OneDrive - Pioneer\Desktop\GroupMembers.csv'
+    $myOutput | Export-CSV 'C:\my\file\path.csv'
     }
     
 }
-  
+```
+
 # SPLUNK Queries
   
 **Find accounts and logged in hosts**<br />
