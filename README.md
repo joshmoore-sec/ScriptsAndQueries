@@ -67,7 +67,7 @@ foreach ($singleApp in $allSAMLApps) {
 
 Write-Host "There are $countExpiring certs." -ForegroundColor Green 
   
-**Create Accounts**
+**Create Accounts**<br />
 #Enter a path to your import CSV file
 $ADUsers = Import-csv C:\my\file\path.csv
 
@@ -96,11 +96,11 @@ foreach ($User in $ADUsers)
        }
 }
   
-#Get AD Group Members
+**Get AD Group Members** <br />
 $Members= Get-ADGroupMember -Identity "group name"
 $Members | Get-ADUser -Properties name, UserPrincipalName | Select-Object name, UserPrincipalName
 
-#ADGroups For Loop
+**ADGroups For Loop** (needs fix to the for each, duplicate entries) <br />
 $myGroups =@('group name', 'group name', 'group name', 
 'group name', 'group name', 'group name', 
 'group name', ''group name', 'group name')
