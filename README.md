@@ -96,6 +96,26 @@ foreach ($User in $ADUsers)
        }
 }
   
+#Get AD Group Members
+$Members= Get-ADGroupMember -Identity "group name"
+$Members | Get-ADUser -Properties name, UserPrincipalName | Select-Object name, UserPrincipalName
+
+#ADGroups For Loop
+$myGroups =@('group name', 'group name', 'group name', 
+'group name', 'group name', 'group name', 
+'group name', ''group name', 'group name')
+
+foreach($groupName in $myGroups)
+{
+$Members= Get-ADGroupMember -Identity $groupName
+    foreach ($individual in $Members)
+    {
+    $myOutput += $Members | Get-ADUser -Properties name, UserPrincipalName | Select-Object name, UserPrincipalName, @{n='Group';e={$groupName}}
+    $myOutput | Export-CSV 'C:\Users\moore428\OneDrive - Pioneer\Desktop\GroupMembers.csv'
+    }
+    
+}
+  
 # SPLUNK Queries
   
 **Find accounts and logged in hosts**<br />
