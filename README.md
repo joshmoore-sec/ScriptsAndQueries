@@ -95,7 +95,7 @@ foreach ($User in $ADUsers)
 
        }
 }
-  
+<br />  
 **Get AD Group Members** <br />
 $Members= Get-ADGroupMember -Identity "group name"
 $Members | Get-ADUser -Properties name, UserPrincipalName | Select-Object name, UserPrincipalName
